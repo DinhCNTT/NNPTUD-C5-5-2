@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Dashboard - Modern Interface</title>
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-light: #eaeaea;
+            --border-radius: 12px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-light);
+            padding: 20px 0;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            color: #333;
+        }
+
+        .header-section {
+            background: var(--primary-gradient);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .header-section h1 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .header-section p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .controls-section {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 45px;
+            border-radius: 25px;
+            border: 2px solid #667eea;
+            transition: border-color 0.15s ease;
+        }
+
+        .search-box input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #764ba2;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .btn-gradient-primary {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-gradient-primary:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .btn-gradient-success {
+            background: var(--success-gradient);
+            border: none;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+            box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn-gradient-success:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 18px 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.15s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(102, 126, 234, 0.08);
+            cursor: pointer;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease;
+        }
+
+        .product-img:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        .sort-btn {
+            background: #ffc107;
+            border: 2px solid #ff9800;
+            color: #000;
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sort-btn:hover {
+            background: #ff9800;
+            border-color: #f57c00;
+            transform: scale(1.05);
+        }
+
+        .sort-btn.active {
+            background: #4caf50;
+            border-color: #388e3c;
+            color: white;
+        }
+
+        .pagination-section {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .pagination {
+            margin-bottom: 0;
+        }
+
+        .page-link {
+            border-radius: 8px;
+            margin: 0 3px;
+            border: 2px solid #667eea;
+            color: #667eea;
+            font-weight: 600;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .page-link:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .page-item.active .page-link {
+            background: var(--primary-gradient);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge-price {
+            background: var(--success-gradient);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .badge-category {
+            background: var(--secondary-gradient);
+            color: white;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 4px;
+        }
+
+        /* Tooltip for description */
+        .description-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            max-width: 300px;
+            z-index: 1000;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            pointer-events: none;
+        }
+
+        /* Modal Enhancements */
+        .modal-content {
+            border-radius: var(--border-radius);
+            border: none;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-footer {
+            border: none;
+            padding: 20px 30px;
+            background: #f8f9fa;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .product-detail-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .table {
+                font-size: 0.85rem;
+            }
+
+            .product-img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Alert Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .toast-header {
+            background: var(--success-gradient);
+            color: white;
+            border: none;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- Header Section -->
+        <div class="main-container">
+            <div class="header-section">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div>
+                        <h1><i class="bi bi-shop"></i> Product Dashboard</h1>
+                        <p>Manage and explore your product catalog with ease</p>
+                    </div>
+                    <button class="btn btn-light btn-lg" onclick="showCreateModal()">
+                        <i class="bi bi-plus-circle"></i> Create New Product
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-5">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input type="text" id="searchInput" class="form-control"
+                                placeholder="Search by product title...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="itemsPerPage" class="form-select">
+                            <option value="5">5 items per page</option>
+                            <option value="10" selected>10 items per page</option>
+                            <option value="20">20 items per page</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-gradient-success" onclick="exportToCSV()">
+                            <i class="bi bi-download"></i> Export to CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Loading products...</p>
+            </div>
+
+            <!-- Table Container -->
+            <div class="table-container" id="tableContainer">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">ID</th>
+                            <th style="width: 100px;">Image</th>
+                            <th>
+                                Title
+                                <button class="sort-btn" onclick="handleSort('title')" id="sortTitleBtn">
+                                    <i class="bi bi-arrow-down-up"></i>
+                                </button>
+                            </th>
+                            <th style="width: 150px;">
+                                Price
+                                <button class="sort-btn" onclick="handleSort('price')" id="sortPriceBtn">
+                                    <i class="bi bi-arrow-down-up"></i>
+                                </button>
+                            </th>
+                            <th style="width: 180px;">Category</th>
+                            <th style="width: 120px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Section -->
+            <div class="pagination-section">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p class="mb-0" id="paginationInfo">
+                            <i class="bi bi-info-circle"></i> Showing <strong>0</strong> to <strong>0</strong> of
+                            <strong>0</strong> products
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <nav>
+                            <ul class="pagination justify-content-end mb-0" id="paginationControls">
+                                <!-- Pagination buttons will be inserted here -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip for Description -->
+    <div class="description-tooltip" id="descriptionTooltip"></div>
+
+    <!-- View/Edit Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-box-seam"></i> Product Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Content will be dynamically inserted -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-gradient-primary" id="editBtn" onclick="enableEditMode()">
+                        <i class="bi bi-pencil"></i> Edit Product
+                    </button>
+                    <button type="button" class="btn btn-gradient-success" id="saveBtn" style="display: none;"
+                        onclick="saveProduct()">
+                        <i class="bi bi-check-circle"></i> Save Changes
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none;"
+                        onclick="cancelEdit()">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Product Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Create New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createProductForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="createTitle" class="form-label">Product Title *</label>
+                                <input type="text" class="form-control" id="createTitle" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="createPrice" class="form-label">Price ($) *</label>
+                                <input type="number" class="form-control" id="createPrice" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="createDescription" class="form-label">Description *</label>
+                            <textarea class="form-control" id="createDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="createCategory" class="form-label">Category *</label>
+                            <select class="form-select" id="createCategory" required>
+                                <option value="">Select a category...</option>
+                                <!-- Categories will be loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="createImages" class="form-label">Image URLs (comma-separated)</label>
+                            <textarea class="form-control" id="createImages" rows="2"
+                                placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"></textarea>
+                            <small class="text-muted">Enter multiple image URLs separated by commas</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-gradient-primary" onclick="createProduct()">
+                        <i class="bi bi-check-circle"></i> Create Product
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container for Notifications -->
+    <div class="toast-container">
+        <div class="toast align-items-center" role="alert" id="notificationToast">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage">
+                    Message
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Application JS -->
+    <script src="app.js"></script>
+</body>
+
+</html>
